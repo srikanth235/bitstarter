@@ -72,24 +72,21 @@ if(require.main == module) {
     var f = program.file
     if(program.url !== URL_DEFAULT) {
         rest.get(program.url).on('complete', function(result) {
-        
         if (result instanceof Error) {
 	    sys.puts('Error: ' + result.message);
          } else {
-	     fs.writeFileSync("test.html", "Hey there!", function(err) {
-		 if(err) {
-		     console.log(err);
-		 } else {
-		     f = "test.html";
-		 }
-	     }); 
+	     fs.writeFileSync('test.html', sys.puts(result));
+	     checkJson = checkHtmlFile('test.html', program.checks);	
+	     var outJson = JSON.stringify(checkJson, null, 4);
+	     console.log(outJson);
 	 }
       });
-    } else {
-    var checkJson = checkHtmlFile(f, program.checks);
-    var outJson = JSON.stringify(checkJson, null, 4);
-    console.log(outJson);
-   }
+    } 
+    else {
+	var checkJson = checkHtmlFile(f, program.checks);
+	var outJson = JSON.stringify(checkJson, null, 4);
+	console.log(outJson);
+    }
 } else {
     exports.checkHtmlFile = checkHtmlFile;
 }
